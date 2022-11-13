@@ -9,7 +9,7 @@ All nodes of left subtree are less than the root node
 All nodes of right subtree are more than the root node
 Both subtrees of each node are also BSTs i.e. they have the above two properties
 
-# Test Results
+### Test Results
 ```
 Insert in tree test
 Set size = 100, Time: 1 ms, Time: 0.001 sec
@@ -42,15 +42,15 @@ Set size = 4000000, Time Avg: 111.7 ticks
 Set size = 8000000, Time Avg: 78.3 ticks
 ```
 
-### Counting Sort
+# Counting Sort
 As its name implies, counting sort works by counting the number of occurrences of each distinct element in the list. An auxiliary array stores these occurrences and maps the values of the distinct elements with the indices of the array. Finally, the algorithm iterates over the auxiliary array while sorting the original array.
 
 The algorithm is not well-suited for collections with a large range of values because the algorithm’s efficiency decreases as the range of values increases. 
 
-# Average-Case Time Complexity
+### Average-Case Time Complexity
 Counting sort encounters the average-case time complexity scenario when we select random values e.g. from 1 to n. In this case, assuming we have an array of size n and the value of the largest element being k, the algorithm has O(n+k) as its average-case time complexity.
 
-## Test Results 
+### Test Results 
 ```
 Set size = 100, Time = 7104 ms, Time = 7 sec
 Set size = 1000, Time = 9012 ms, Time = 9 sec
