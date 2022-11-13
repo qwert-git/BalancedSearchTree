@@ -41,3 +41,23 @@ Set size = 2000000, Time Avg: 51.9 ticks
 Set size = 4000000, Time Avg: 111.7 ticks
 Set size = 8000000, Time Avg: 78.3 ticks
 ```
+
+### Counting Sort
+As its name implies, counting sort works by counting the number of occurrences of each distinct element in the list. An auxiliary array stores these occurrences and maps the values of the distinct elements with the indices of the array. Finally, the algorithm iterates over the auxiliary array while sorting the original array.
+
+The algorithm is not well-suited for collections with a large range of values because the algorithm’s efficiency decreases as the range of values increases. 
+
+# Average-Case Time Complexity
+Counting sort encounters the average-case time complexity scenario when we select random values e.g. from 1 to n. In this case, assuming we have an array of size n and the value of the largest element being k, the algorithm has O(n+k) as its average-case time complexity.
+
+## Test Results 
+```
+Set size = 100, Time = 7104 ms, Time = 7 sec
+Set size = 1000, Time = 9012 ms, Time = 9 sec
+Set size = 10000, Time = 8668 ms, Time = 8 sec
+Set size = 100000, Time = 7577 ms, Time = 7 sec
+Set size = 1000000, Time = 8111 ms, Time = 8 sec
+Set size = 2000000, Time = 9255 ms, Time = 9 sec
+Set size = 4000000, Time = 8596 ms, Time = 8 sec
+Set size = 8000000, Time = 7974 ms, Time = 7 sec
+```
