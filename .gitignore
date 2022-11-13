@@ -2,3 +2,5 @@ BalancedSearchTree/bin/
 BalancedSearchTree/obj/
 BalancedSearchTree.Tests/obj/
 BalancedSearchTree.Tests/bin/
+BalancedSearchTree.PerfTest/obj/
+BalancedSearchTree.PerfTest/bin/
