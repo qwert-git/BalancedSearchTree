@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>BalancedSearchTree.Benchmark.InsertBalancedTreeBenchmarker-20221125-171311</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.13.2, OS=Windows 11 (10.0.22000.1219/21H2)
+Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+.NET SDK=6.0.111
+  [Host]     : .NET 6.0.11 (6.0.1122.52304), X64 RyuJIT AVX2
+  Job-MYXELQ : .NET 6.0.11 (6.0.1122.52304), X64 RyuJIT AVX2
+</code></pre>
+<pre><code>InvocationCount=1  UnrollFactor=1  
+</code></pre>
+
+<table>
+<thead><tr><th>Method</th><th>N</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Median</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>Insert</td><td>5000</td><td>681.0 &mu;s</td><td>101.24 &mu;s</td><td>290.47 &mu;s</td><td>567.9 &mu;s</td><td>497.36 KB</td>
+</tr><tr><td>Insert</td><td>10000</td><td>635.9 &mu;s</td><td>68.19 &mu;s</td><td>192.32 &mu;s</td><td>579.8 &mu;s</td><td>532.75 KB</td>
+</tr><tr><td>Insert</td><td>50000</td><td>667.8 &mu;s</td><td>22.81 &mu;s</td><td>63.97 &mu;s</td><td>646.9 &mu;s</td><td>611.64 KB</td>
+</tr><tr><td>Insert</td><td>100000</td><td>788.6 &mu;s</td><td>68.55 &mu;s</td><td>191.09 &mu;s</td><td>710.8 &mu;s</td><td>649.77 KB</td>
+</tr><tr><td>Insert</td><td>200000</td><td>1,089.2 &mu;s</td><td>110.67 &mu;s</td><td>319.31 &mu;s</td><td>982.5 &mu;s</td><td>688.27 KB</td>
+</tr><tr><td>Insert</td><td>500000</td><td>1,219.5 &mu;s</td><td>30.39 &mu;s</td><td>86.22 &mu;s</td><td>1,197.4 &mu;s</td><td>727.94 KB</td>
+</tr></tbody></table>
+</body>
+</html>

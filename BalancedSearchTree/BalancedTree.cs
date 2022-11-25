@@ -1,4 +1,6 @@
-﻿namespace BalancedSearchTree;
+﻿using BenchmarkDotNet.Attributes;
+
+namespace BalancedSearchTree;
 
 public partial class BalancedTree<T> where T : IComparable
 {
@@ -11,9 +13,105 @@ public partial class BalancedTree<T> where T : IComparable
         Root = new BalancedTreeNode<T>(rootValue);
     }
 
+    [Benchmark]
     public void Insert(T nodeValue)
     {
         Root = InsertInternal(Root, nodeValue);
+    }
+
+    [Benchmark]
+    public void Remove(T value)
+    {
+        Root = RemoveInternal(Root, value);
+    }
+
+    [Benchmark]
+    public BalancedTreeNode<T>? Search(T value)
+    {
+        return SearchInternal(Root, value);
+    }
+
+    #region Private methods
+    private BalancedTreeNode<T>? RemoveInternal(BalancedTreeNode<T>? node, T value)
+    {
+        if (node is null)
+            return node;
+
+        if (node.Value.IsBigger(value))
+            node.LeftChild = RemoveInternal(node.LeftChild, value);
+        else if (node.Value.IsLower(value))
+            node.RightChild = RemoveInternal(node.RightChild, value);
+        else
+        {
+            if (node.LeftChild is null)
+                return node.RightChild;
+            else if (node.RightChild is null)
+                return node.LeftChild;
+
+            var minValue = GetMinInternal(node.RightChild);
+            RemoveInternal(node.RightChild, value);
+
+            return new BalancedTreeNode<T>(minValue)
+            {
+                LeftChild = node.LeftChild,
+                RightChild = node.RightChild
+            };
+        }
+
+        // Update the balance factor of each node and balance the tree
+        node.Height = CalculateHeight(node);
+        int balanceFactor = GetBalanceFactor(node);
+        if (balanceFactor > 1)
+        {
+            if (GetBalanceFactor(node.LeftChild) >= 0)
+            {
+                return RightRotate(node);
+            }
+            else
+            {
+                node.LeftChild = LeftRotate(node.LeftChild!);
+                return RightRotate(node);
+            }
+        }
+        if (balanceFactor < -1)
+        {
+            if (GetBalanceFactor(node.RightChild) <= 0)
+            {
+                return LeftRotate(node);
+            }
+            else
+            {
+                node.RightChild = RightRotate(node.RightChild!);
+                return LeftRotate(node);
+            }
+        }
+
+        return node;
+    }
+
+    private T GetMinInternal(BalancedTreeNode<T> node)
+    {
+        var min = node.Value;
+        while (node.LeftChild != null)
+        {
+            node = node.LeftChild;
+            min = node.Value;
+        }
+
+        return min;
+    }
+
+    private BalancedTreeNode<T>? SearchInternal(BalancedTreeNode<T>? node, T searchingValue)
+    {
+        if (node is null)
+            return null;
+
+        if (node.Value.EqualsTo(searchingValue))
+            return node;
+        else if (node.Value.IsBigger(searchingValue))
+            return SearchInternal(node.LeftChild, searchingValue);
+        else
+            return SearchInternal(node.RightChild, searchingValue);
     }
 
     private static BalancedTreeNode<T>? InsertInternal(BalancedTreeNode<T>? node, T value)
@@ -93,95 +191,6 @@ public partial class BalancedTree<T> where T : IComparable
         return GetHeightInternal(node.LeftChild) - GetHeightInternal(node.RightChild);
     }
 
-    public void Remove(T value)
-    {
-        Root = RemoveInternal(Root, value);
-    }
+    #endregion
 
-    private BalancedTreeNode<T>? RemoveInternal(BalancedTreeNode<T>? node, T value)
-    {
-        if (node is null)
-            return node;
-
-        if (node.Value.IsBigger(value))
-            node.LeftChild = RemoveInternal(node.LeftChild, value);
-        else if (node.Value.IsLower(value))
-            node.RightChild = RemoveInternal(node.RightChild, value);
-        else
-        {
-            if (node.LeftChild is null)
-                return node.RightChild;
-            else if (node.RightChild is null)
-                return node.LeftChild;
-
-            var minValue = GetMinInternal(node.RightChild);
-            RemoveInternal(node.RightChild, value);
-
-            return new BalancedTreeNode<T>(minValue)
-            {
-                LeftChild = node.LeftChild,
-                RightChild = node.RightChild
-            };
-        }
-
-        // Update the balance factor of each node and balance the tree
-        node.Height = CalculateHeight(node);
-        int balanceFactor = GetBalanceFactor(node);
-        if (balanceFactor > 1)
-        {
-            if (GetBalanceFactor(node.LeftChild) >= 0)
-            {
-                return RightRotate(node);
-            }
-            else
-            {
-                node.LeftChild = LeftRotate(node.LeftChild!);
-                return RightRotate(node);
-            }
-        }
-        if (balanceFactor < -1)
-        {
-            if (GetBalanceFactor(node.RightChild) <= 0)
-            {
-                return LeftRotate(node);
-            }
-            else
-            {
-                node.RightChild = RightRotate(node.RightChild!);
-                return LeftRotate(node);
-            }
-        }
-
-        return node;
-    }
-
-    private T GetMinInternal(BalancedTreeNode<T> node)
-    {
-        var min = node.Value;
-        while (node.LeftChild != null)
-        {
-            node = node.LeftChild;
-            min = node.Value;
-        }
-
-        return min;
-    }
-
-    public BalancedTreeNode<T>? Search(T value)
-    {
-        return SearchInternal(Root, value);
-    }
-
-    private BalancedTreeNode<T>? SearchInternal(BalancedTreeNode<T>? node, T searchingValue)
-    {
-        if (node is null)
-            return null;
-
-        if (node.Value.EqualsTo(searchingValue))
-            return node;
-        else if (node.Value.IsBigger(searchingValue))
-            return SearchInternal(node.LeftChild, searchingValue);
-        else
-            return SearchInternal(node.RightChild, searchingValue);
-    }
 }
